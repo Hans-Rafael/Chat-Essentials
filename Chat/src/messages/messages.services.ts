@@ -1,24 +1,43 @@
-/* import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import MessageEntity from './messages.entity';
+import { MessageDto } from './dto/Messages.dto';
+
 
 @Injectable()
-export class UsersService {
+export class MessagesService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    @InjectRepository(MessageEntity)
+    private messagesRepository: Repository<MessageEntity>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  //get all mensajes
+    async getAllMessages() {
+      const messages = await this.messagesRepository.find({
+       /*  relations: {
+          sender: true,
+        }, */
+       // select: { sender: { id: true, messages: false, username: true } },
+      });
+    if (messages) {
+      return messages;
+    }
+    throw new HttpException(
+      'There is not users in the database yet',
+      HttpStatus.NOT_FOUND,
+    );
   }
-
-  findOne(id: number): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
+  //getAllUserMessages from a user id
+  //****
+  //crear un mensaje carpeta DTO PERMITA SABER COMO VA INF AL HACER PETICION
+  async createMessage(messageData: MessageDto, userId:string): Promise<MessageEntity>  {
+    const newMessage: MessageEntity = this.messagesRepository.create(messageData);
+    await this.messagesRepository.save(newMessage);
+    return newMessage;
   }
-
-  async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+ // borrar un mensaje
+  async removeMessage(id: number): Promise<void> {
+    await this.messagesRepository.delete(id);
   }
-} */
+}

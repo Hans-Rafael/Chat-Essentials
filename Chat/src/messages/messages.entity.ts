@@ -3,15 +3,15 @@ import { ApiProperty } from "@nestjs/swagger";
 
 
 @Entity('message')  
-export class MessageEntity {
+export default class MessageEntity {
     //Declarar propiedad swager
-    @ApiProperty({})
+    @ApiProperty({description: 'id as uuid', type: 'string'})
     //crear columna primaria mensaje:id
     @PrimaryGeneratedColumn('uuid')
-    public id:string;
+    public id?:string;
     
     //Declarar propiedad swager
-    @ApiProperty({})
+    @ApiProperty({ description: 'Mensaje de un usuario', type: 'string'})
     //Crear columna mensaje:texto
     @Column()
     public message:string;

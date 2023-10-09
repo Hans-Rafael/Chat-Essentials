@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ChatModule } from './chat/chat.module';
-//import {MessagesModule} from "./messages/messages.entity";
+import { MessagesModule } from './messages/messages.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { MessageEntity } from './messages/messages.entity';
+import MessageEntity from './messages/messages.entity';
 import configuration from './config/configuration';
-
 
 ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -15,7 +13,7 @@ ConfigModule.forRoot({
 @Module({
   imports: [
     ChatModule,
-    //MessagesModule,
+    MessagesModule,
     ConfigModule.forRoot({ load: [configuration] }), //for .env
     TypeOrmModule.forRoot({
       type: 'postgres',

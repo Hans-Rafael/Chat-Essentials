@@ -1,10 +1,8 @@
 import { Module } from "@nestjs/common/decorators";
 import { ChatGateway } from './chat.getaway';
-//import {MessageModule} from '../message/message.module';
-
-
+import {MessagesModule} from '../messages/messages.module'
 @Module({
-    imports:[],
+    imports:[MessagesModule,],
     providers:[ChatGateway],
     controllers:[],
     exports:[],

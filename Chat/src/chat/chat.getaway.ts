@@ -1,18 +1,20 @@
 import {
-  ConnectedSocket,
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+//import { MessageDto } from './';
  
-@WebSocketGateway()
-// cors: { origin: '*' },
+@WebSocketGateway({
+ cors: { origin: '*' },
+})
 export class ChatGateway {
   constructor() //private messageService: MessageService,
   {}
 
+  users = {};
+  
   //obtener la instancia del servidor con el decorador webSocketServer
   @WebSocketServer() server: Server;
 
@@ -21,7 +23,6 @@ export class ChatGateway {
     console.log('------- Web socket iniciado -----');
   }
 
-  //users = {};
 
   //Todo: aplicar el metodo handleConnection y emitir el evento 'connection'
   handleConnection = (socket: Socket) => {
@@ -37,13 +38,9 @@ export class ChatGateway {
   //Todo: Sl recivir el mensaje, emitir evento 'new_message' emviando la informacion que se recive del cliente
   @SubscribeMessage('event_message')
   handleEvent(
-    @MessageBody() message: string,
-    @ConnectedSocket() socket: Socket,
+    client: Socket,
   ): void {
-    //return this.server.emit('new_message', message);
-    socket.emit('new_message', { Mensaje: message }, (message: any) =>
-      console.log(message),
-    );
+    //socket.emit('new_message',message),
+    this.server.emit('new_message',);
   }
- 
 }
