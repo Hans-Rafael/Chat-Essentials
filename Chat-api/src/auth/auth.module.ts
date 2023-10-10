@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common/decorators';
-import { ChatGateway } from './chat.getaway';
-import { MessagesModule } from '../messages/messages.module';
-import { JwtModule } from '@nestjs/jwt';
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { UsersModule } from '../users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from '../auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    AuthModule,
-    MessagesModule,
+    UsersModule,
+    ConfigModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -21,8 +21,8 @@ import { AuthModule } from '../auth/auth.module';
       }),
     }),
   ],
-  providers: [ChatGateway],
-  controllers: [],
-  exports: [],
+  providers: [AuthService],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
-export class ChatModule {}
+export class AuthModule {}

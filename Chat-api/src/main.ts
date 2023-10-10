@@ -17,6 +17,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   const PORT: number = 3000;
+  //por securidad en produccion hide en .env PORT y no .log(port)
   app.enableCors();
   await app.listen(PORT, () =>
     console.log(`Server is running on port ${PORT}`),
