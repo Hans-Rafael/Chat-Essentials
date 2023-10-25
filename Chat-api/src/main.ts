@@ -15,6 +15,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+  // se puede acceder a documentacion en:
+  //http://localhost:3000/docs
 
   const PORT: number = 3000;
   //por securidad en produccion hide en .env PORT y no .log(port)
